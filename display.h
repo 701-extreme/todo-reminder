@@ -5,6 +5,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-void display_menu();
+typedef enum status
+{
+        WELCOME,
+        MENU,
+        SETUP,
+        IMPORT,
+        ADD,
+        REMOVE
+}Status;
+
+void display(Status user_viewing);
+void display_interface(char* path);
 
 #endif

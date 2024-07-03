@@ -6,25 +6,21 @@
 
 #define INPUT_MAX (1024)
 
-typedef enum status
-{
-	WELCOME,
-	MENU,
-	SETUP,
-	IMPORT,
-	ADD,
-	REMOVE
-}Status;
-
 int invalid_input(char* input, int len, Status user_viewing)
 {
+	int numbercmd = (int)strtol(input, NULL, 10);
+	char str[INPUT_MAX]={0};
+	sprintf(str, "%d", numbercmd);
+	int is_num = 0;
+	if(strcmp(str, input)==0)
+		is_num = 1;	
 	switch(user_viewing)
 	{
 		case WELCOME:
-			if(atoi(input)<1||atoi(input)>3)
+			if((numbercmd<1||numbercmd>3) || !is_num)
 				return 1;
 		case MENU:
-			if(atoi(input)<1||atoi(input)>6)
+			if((numbercmd<1||numbercmd>6) || !is_num)
 				return 1;
 		default:
 			return 0;
@@ -45,14 +41,17 @@ int main(int argc, char** argv)
 	if(schedules)
 	{
 		printf("Directory exists\n");
-		user_viewing = MENU;
 		nfiles = choose_files(filelist);
+		if(nfiles<1)
+			user_viewing = WELCOME;
+		else
+			user_viewing = MENU;
 		closedir(schedules);
 	}
 	else if (errno==ENOENT) // Directory does not exist
 	{
 		printf("Directory does not exist, creating one\n");
-		user_viewing=WELCOME;
+		user_viewing = WELCOME;
 		mkdir("schedules", 0755);
 	}
 	else
@@ -63,23 +62,30 @@ int main(int argc, char** argv)
 	
 	// Loop to read user commands
 	char input[INPUT_MAX] = {0};
-	char* line;
 	int len = 0;
+	display(user_viewing);
 	while(1)
 	{
-		display_menu();
-		// handle user input
-		printf("Enter your option: ");
-		line = fgets(input, INPUT_MAX, stdin);
-		len = strlen(input)-1;
+		printf("COMMAND > ");
+		if(!fgets(input, INPUT_MAX, stdin))
+		{
+			printf("fgets error!\n");
+			exit(1);
+		}
+		len=strlen(input)-1;
 		input[len]=0;
-		printf("You have entered: %s\n", line);
+		printf("You have entered: %s\n", input);
 		while(invalid_input(input, len, user_viewing))
 		{
-			printf("%s is an invalid command, Please try again: ", input);
-			line = fgets(input, INPUT_MAX, stdin);
+			printf("%s is an invalid command, Please try again\nCOMMAND > ", input);
+			if(!fgets(input, INPUT_MAX, stdin))
+			{
+				printf("fgets error!\n");
+				exit(1);
+			}
 			len = strlen(input)-1;
 			input[len]=0;
+			printf("You have entered: %s\n", input);
 		}
 	}
 	free_filelist(filelist, nfiles);

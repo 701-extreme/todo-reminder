@@ -22,4 +22,3 @@ clean:
 	rm -f $(OBJS)
 	rm -f $(TARGET)
 	rm -rf *.out
-
