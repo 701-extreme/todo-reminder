@@ -2,9 +2,9 @@
 CC=gcc
 FLAGS=-Wall -Werror -g -fsanitize=address
 LDFLAGS = -lm
-OBJS=main.o
+OBJS=main.o display.o
 TARGET=reminder
-MAIN_SOURCE=main.c
+MAIN_SOURCE=main.c display.c
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
