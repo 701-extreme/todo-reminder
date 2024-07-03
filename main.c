@@ -20,7 +20,7 @@ int invalid_input(char* input, int len, Status user_viewing)
 			if((numbercmd<1||numbercmd>3) || !is_num)
 				return 1;
 		case MENU:
-			if((numbercmd<1||numbercmd>6) || !is_num)
+			if((numbercmd<1||numbercmd>5) || !is_num)
 				return 1;
 		default:
 			return 0;
@@ -98,13 +98,14 @@ static int ext_filter(const struct dirent* dir)
      if(!dir)
        return 0;
 
+     printf("%s\n", dir->d_name);
      if(dir->d_type == DT_REG) { /* only deal with regular file */
          const char *ext = strrchr(dir->d_name,'.');
          if((!ext) || (ext == dir->d_name))
            	return 0;
          else {
            	if(strcmp(ext, ".reminder") == 0)
-             	return 1;
+	             	return 1;
         	}
 	}
 
@@ -114,7 +115,7 @@ static int ext_filter(const struct dirent* dir)
 /* Choose the file with .reminder extension, return the number of files matched */
 int choose_files(struct dirent** filelist)
 {
-	int n = scandir(".", &filelist, ext_filter, alphasort);
+	int n = scandir("./schedules", &filelist, ext_filter, alphasort);
 	return n;
 }
 
