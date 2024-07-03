@@ -1,31 +1,13 @@
-#include "display.h"
-#include <dirent.h>
-#include <errno.h>
-#include <ctype.h>
 #include <sys/stat.h>
+#include <errno.h>
+#include <dirent.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "display.h"
+#include "input_helper.h"
 
 #define INPUT_MAX (1024)
-
-int invalid_input(char* input, int len, Status user_viewing)
-{
-	int numbercmd = (int)strtol(input, NULL, 10);
-	char str[INPUT_MAX]={0};
-	sprintf(str, "%d", numbercmd);
-	int is_num = 0;
-	if(strcmp(str, input)==0)
-		is_num = 1;	
-	switch(user_viewing)
-	{
-		case WELCOME:
-			if((numbercmd<1||numbercmd>3) || !is_num)
-				return 1;
-		case MENU:
-			if((numbercmd<1||numbercmd>5) || !is_num)
-				return 1;
-		default:
-			return 0;
-	}
-}
 
 int choose_files(struct dirent** filelist);
 static int ext_filter(const struct dirent* file); 
@@ -60,34 +42,15 @@ int main(int argc, char** argv)
 		exit(1);
 	}
 	
+	char* input = (char*)malloc(sizeof(char)*INPUT_MAX);
 	// Loop to read user commands
-	char input[INPUT_MAX] = {0};
-	int len = 0;
 	display(user_viewing);
 	while(1)
 	{
-		printf("COMMAND > ");
-		if(!fgets(input, INPUT_MAX, stdin))
-		{
-			printf("fgets error!\n");
-			exit(1);
-		}
-		len=strlen(input)-1;
-		input[len]=0;
-		printf("You have entered: %s\n", input);
-		while(invalid_input(input, len, user_viewing))
-		{
-			printf("%s is an invalid command, Please try again\nCOMMAND > ", input);
-			if(!fgets(input, INPUT_MAX, stdin))
-			{
-				printf("fgets error!\n");
-				exit(1);
-			}
-			len = strlen(input)-1;
-			input[len]=0;
-			printf("You have entered: %s\n", input);
-		}
+		get_command(input, user_viewing);
+		printf("your input is: %s\n", input);
 	}
+	free(input);
 	free_filelist(filelist, nfiles);
 	return 0;
 }
@@ -98,7 +61,6 @@ static int ext_filter(const struct dirent* dir)
      if(!dir)
        return 0;
 
-     printf("%s\n", dir->d_name);
      if(dir->d_type == DT_REG) { /* only deal with regular file */
          const char *ext = strrchr(dir->d_name,'.');
          if((!ext) || (ext == dir->d_name))

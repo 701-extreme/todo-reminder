@@ -2,20 +2,12 @@
 #define DISP_H
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "status.h"
 
-typedef enum status
-{
-        WELCOME,
-        MENU,
-        SETUP,
-        IMPORT,
-        ADD,
-        REMOVE
-}Status;
-
+/* Choose which interface to display */
 void display(Status user_viewing);
+
+/* Display the corresponding interface */
 void display_interface(char* path);
 
 #endif
