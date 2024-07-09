@@ -12,6 +12,8 @@ void display(Status user_viewing)
 		case MENU:
 			display_interface("./interfaces/menu");
 			break;
+		case SETUP:
+			display_interface("./interfaces/menu");
 		default:
 			break;
 	}

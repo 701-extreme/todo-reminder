@@ -22,7 +22,6 @@ int main(int argc, char** argv)
 	DIR* schedules = opendir("schedules");
 	if(schedules)
 	{
-		printf("Directory exists\n");
 		nfiles = choose_files(filelist);
 		if(nfiles<1)
 			user_viewing = WELCOME;
@@ -44,11 +43,12 @@ int main(int argc, char** argv)
 	
 	char* input = (char*)malloc(sizeof(char)*INPUT_MAX);
 	// Loop to read user commands
-	display(user_viewing);
 	while(1)
 	{
+		display(user_viewing);
 		get_command(input, user_viewing);
 		printf("your input is: %s\n", input);
+		user_viewing = response_handle(user_viewing, input);
 	}
 	free(input);
 	free_filelist(filelist, nfiles);

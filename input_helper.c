@@ -43,7 +43,19 @@ void get_command(char* line, Status user_viewing)
 			}
 			len = strlen(input)-1;
 			input[len]=0;
-			printf("You have entered: %s\n", input);
 	}
 	strcpy(line, input);
+}
+
+/* return the final state dependent on the current state and the user response */
+Status response_handle(Status user_viewing, char response)
+{
+	case WELCOME:
+		return handle_welcome(response);
+	case MENU:
+		return handle_menu(response);
+	case SETUP:
+		return handle_setup(response);
+	default:
+		return user_viewing;
 }
