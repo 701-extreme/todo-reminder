@@ -21,7 +21,7 @@ int invalid_input(char* input, int len, Status user_viewing)
 	}
 }
 
-void get_command(char* line, Status user_viewing)
+int get_command(char* line, Status user_viewing)
 {
 	char input[INPUT_MAX] = {0};
 	int len=0;
@@ -29,7 +29,7 @@ void get_command(char* line, Status user_viewing)
 	if(!fgets(input, INPUT_MAX, stdin))
 	{
 		printf("fgets error!\n");
-		exit(1);
+		return 0;
 	}
 	len = strlen(input)-1;
 	input[len] = 0;
@@ -45,17 +45,6 @@ void get_command(char* line, Status user_viewing)
 			input[len]=0;
 	}
 	strcpy(line, input);
+	return 1;
 }
 
-/* return the final state dependent on the current state and the user response */
-Status response_handle(Status user_viewing, char response)
-{
-	case WELCOME:
-		return handle_welcome(response);
-	case MENU:
-		return handle_menu(response);
-	case SETUP:
-		return handle_setup(response);
-	default:
-		return user_viewing;
-}

@@ -1,0 +1,33 @@
+Heya! You doesn't seems to have any schedules yet? 
+1. Set up a new schedule
+2. Import a schedule file
+3. Exit
+COMMAND >1
+Your current schedule: 0
+1. Add an item
+2. Display all current schedule
+3. Remove an item
+4. Exit
+COMMAND >1
++-1----
+| Event: wake up
+| Time: 5:00
+| Label: daily
++-----
+Your current schedule: 1
+1. Add an item
+2. Display all current schedule
+3. Remove an item
+4. Exit
+COMMAND >1
++-2----
+| Event: have breakfast
+| Time: 6:00
+| Label: daily
++-----
+Your current schedule: 2
+1. Add an item
+2. Display all current schedule
+3. Remove an item
+4. Exit
+COMMAND >4

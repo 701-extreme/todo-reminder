@@ -3,9 +3,11 @@
 #include <dirent.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
 
 #include "display.h"
 #include "input_helper.h"
+#include "response_handle.h"
 
 #define INPUT_MAX (1024)
 
@@ -46,7 +48,12 @@ int main(int argc, char** argv)
 	while(1)
 	{
 		display(user_viewing);
-		get_command(input, user_viewing);
+		if(!get_command(input, user_viewing))
+		{
+			puts("free and early return");
+			free(input);
+			return -1;
+		}
 		printf("your input is: %s\n", input);
 		user_viewing = response_handle(user_viewing, input);
 	}

@@ -12,9 +12,6 @@
 int invalid_input(char* input, int len, Status user_viewing);
 
 /* Get user commands */
-void get_command(char* line, Status user_viewing);
-
-/* Handle response and return new state of program, depends on current state and user response */
-Status response_handle(Status user_viewing, char response);
+int get_command(char* line, Status user_viewing);
 
 #endif

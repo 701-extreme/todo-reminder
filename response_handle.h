@@ -8,8 +8,8 @@
 #include "status.h"
 
 Status response_handle(Status user_viewing, char* response);
-Status handle_welcome(char* response);
-Status handle_menu(char* response);
-Status handle_setup(char* response);
+Status handle_welcome(unsigned int response);
+Status handle_menu(unsigned int response);
+Status handle_setup(unsigned int response);
 
 #endif

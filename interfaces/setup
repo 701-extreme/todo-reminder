@@ -1,9 +1,4 @@
-
-+-Note------
-| Save & end program: ctrl+S
-| Discare all changes & end program: ctrl+Q
-| Discare all changes & return to menu: ctrl+W
-+-----------
-
-Please tell me events to remind you of
-
+1. Add an item
+2. Display all current schedule
+3. Remove an item
+4. Exit
